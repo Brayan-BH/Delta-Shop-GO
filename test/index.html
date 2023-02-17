@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="input-file" type="file">Subir Imagen
+
+    <img id="imagen" src="" alt="imagen">
+    <br>
+    <input id="btnEnviar" type="button" value="Enviar">
+</body>
+<script>
+    const inputFile = document.getElementById("input-file");
+    const imagen = document.getElementById("imagen");
+    const btnEnviar = document.getElementById("btnEnviar");
+    let files = [];
+
+    inputFile.onchange = function (e) {
+        console.log(e);
+        let file = e.target.files
+        files = file
+        let reader = new FileReader();
+        reader.readAsDataURL(file[0])
+        reader.onload = () => {
+            imagen.attributes.src.value = reader.result
+
+        }
+
+        console.log(reader.result);
+
+    }
+    btnEnviar.addEventListener("click", () =>{
+        let data = new FormData()
+        data.append("foto", files[0])
+        
+        const options = {
+            method:  "POST",
+            body : data,
+            // headers: {
+            //     "content-type": "multipart/form-data"
+            // }
+        }
+        fetch("http://localhost:5000/admin/productos/create-img/01001001",options)
+            .then(data => {console.log(data)})
+    })
+    btnEnviar.click(() =>{
+        
+    })
+
+</script>
+
+</html>
